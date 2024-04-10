@@ -23,12 +23,12 @@ INSERT INTO `patient` (`name`, `gender`, `date_of_birth`, `address`, `email`, `p
 
 
 
-CREATE TABLE staff (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255),
-    age TINYINT UNSIGNED NOT NULL,
-    gender ENUM ('M', 'F'),
-    position ENUM ('Dentist', 'Hygienist', 'Receptionist', 'Assistant')
+CREATE TABLE `staff` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(255),
+    `age` TINYINT UNSIGNED NOT NULL,
+    `gender` ENUM ('M', 'F'),
+    `position` ENUM ('Dentist', 'Hygienist', 'Receptionist', 'Assistant')
 );
 INSERT INTO staff (name, age, gender, position) VALUES
 ('Dr. Brown', 45, 'M', 'Dentist'),
@@ -42,13 +42,13 @@ INSERT INTO staff (name, age, gender, position) VALUES
 
 
 CREATE TABLE dental_report (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    patient_id INT,
-    staff_id INT,
-    datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    diagnosis VARCHAR(255),
-    treatment VARCHAR(255),
-    xray_image BLOB,
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `patient_id` INT,
+    `staff_id` INT,
+    `datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `diagnosis` VARCHAR(255),
+    `treatment` VARCHAR(255),
+    `xray_image` BLOB,
     FOREIGN KEY (patient_id) REFERENCES patient(id),
     FOREIGN KEY (staff_id) REFERENCES staff(id)
 ) AUTO_INCREMENT = 2000;
@@ -70,7 +70,7 @@ CREATE TABLE appointment (
     datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     duration INT DEFAULT 60,
     reason VARCHAR(255),
-    FOREIGN KEY (patient_id) REFERENCES patients(id),
+    FOREIGN KEY (patient_id) REFERENCES patient(id),
     FOREIGN KEY (staff_id) REFERENCES staff(id)
 );
 INSERT INTO appointment (booking_type, patient_id, staff_id, datetime, duration, reason) VALUES 
@@ -87,6 +87,6 @@ CREATE TABLE billing (
     patient_id INT UNSIGNED NOT NULL,
     date DATE,
     amount DECIMAL(10, 2),
-    FOREIGN KEY (patient_id) REFERENCES patients(id)
+    FOREIGN KEY (patient_id) REFERENCES patient(id)
 );
 
