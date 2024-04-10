@@ -5,7 +5,7 @@ USE dentist_isb;
 
 
 CREATE TABLE `patient` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
     `date_of_birth` DATE NOT NULL,
     `gender` ENUM ('M', 'F', 'O', 'N/A'),
@@ -24,7 +24,7 @@ INSERT INTO `patient` (`name`, `gender`, `date_of_birth`, `address`, `email`, `p
 
 
 CREATE TABLE `staff` (
-    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255),
     `age` TINYINT UNSIGNED NOT NULL,
     `gender` ENUM ('M', 'F'),
@@ -43,33 +43,33 @@ INSERT INTO staff (name, age, gender, position) VALUES
 
 CREATE TABLE dental_report (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    `patient_id` INT,
-    `staff_id` INT,
+    `patient_id` INT UNSIGNED NOT NULL,
+    `staff_id` INT UNSIGNED NOT NULL,
     `datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `diagnosis` VARCHAR(255),
     `treatment` VARCHAR(255),
-    `xray_image` BLOB,
+    `xray_image` MEDIUMBLOB,
     FOREIGN KEY (patient_id) REFERENCES patient(id),
     FOREIGN KEY (staff_id) REFERENCES staff(id)
 ) AUTO_INCREMENT = 2000;
 INSERT INTO dental_report (patient_id, staff_id, datetime, diagnosis, treatment, xray_image) VALUES
-(1000, 1, '2022-01-01 09:30:00', 'Cavity', 'Filling', LOAD_FILE('C:/xampp/htdocs/dentist_isb/xray/xray1.png')),
-(1001, 2, '2022-01-02 10:30:00', 'Gum disease', 'Deep cleaning', LOAD_FILE('C:/xampp/htdocs/dentist_isb/xray/xray2.png')),
-(1002, 3, '2022-01-03 11:30:00', 'Tooth decay', 'Extraction', LOAD_FILE('C:/xampp/htdocs/dentist_isb/xray/xray3.png')),
-(1003, 4, '2022-01-04 12:30:00', 'Toothache', 'Root canal', LOAD_FILE('C:/xampp/htdocs/dentist_isb/xray/xray4.png')),
-(1004, 5, '2022-01-05 13:30:00', 'Cracked tooth', 'Crown', LOAD_FILE('C:/xampp/htdocs/dentist_isb/xray/xray5.png')),
-(1005, 6, '2022-01-06 14:30:00', 'Abscess', 'Drainage', LOAD_FILE('C:/xampp/htdocs/dentist_isb/xray/xray6.png'))
+(1000, 1, '2022-01-01 09:30:00', 'Cavity', 'Filling', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray1.jpeg')),
+(1001, 2, '2022-01-02 10:30:00', 'Gum disease', 'Deep cleaning', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray2.jpeg')),
+(1002, 3, '2022-01-03 11:30:00', 'Tooth decay', 'Extraction', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray3.jpeg')),
+(1003, 4, '2022-01-04 12:30:00', 'Toothache', 'Root canal', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray4.jpeg')),
+(1004, 5, '2022-01-05 13:30:00', 'Cracked tooth', 'Crown', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray5.jpeg')),
+(1005, 6, '2022-01-06 14:30:00', 'Abscess', 'Drainage', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray6.jpeg'));
 
 
 
-CREATE TABLE appointment (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    booking_type ENUM ('Phone', 'In-Person', 'Online', 'Postal'),
-    patient_id INT NOT NULL,
-    staff_id INT NOT NULL,
-    datetime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    duration INT DEFAULT 60,
-    reason VARCHAR(255),
+CREATE TABLE `appointment` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `booking_type` ENUM ('Phone', 'In-Person', 'Online', 'Postal'),
+    `patient_id` INT UNSIGNED NOT NULL,
+    `staff_id` INT UNSIGNED NOT NULL,
+    `datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `duration` INT DEFAULT 60,
+    `reason` VARCHAR(255),
     FOREIGN KEY (patient_id) REFERENCES patient(id),
     FOREIGN KEY (staff_id) REFERENCES staff(id)
 );
