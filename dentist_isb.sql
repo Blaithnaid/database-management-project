@@ -72,13 +72,13 @@ CREATE TABLE `appointment` (
     `booking_type` ENUM ('Phone', 'In-Person', 'Online', 'Postal'),
     `patient_id` INT UNSIGNED NOT NULL,
     `staff_id` INT UNSIGNED NOT NULL,
-    `datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `appt_datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `duration` INT DEFAULT 60,
     `reason` VARCHAR(255),
     FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`),
     FOREIGN KEY (`staff_id`) REFERENCES `staff`(`id`)
-);
-INSERT INTO `appointment` (`booking_type`, `patient_id`, `staff_id`, `datetime`, `duration`, `reason`) VALUES 
+) AUTO_INCREMENT = 4000;
+INSERT INTO `appointment` (`booking_type`, `patient_id`, `staff_id`, `appt_datetime`, `duration`, `reason`) VALUES 
 ('Phone', 1000, 2000, '2022-01-01 09:00:00', 30, 'Check-up'),
 ('In-Person', 1001, 2001, '2022-01-02 10:00:00', 60, 'Cleaning'),
 ('Online', 1002, 2002, '2022-01-03 11:00:00', 40, 'Extraction'),
@@ -87,11 +87,24 @@ INSERT INTO `appointment` (`booking_type`, `patient_id`, `staff_id`, `datetime`,
 ('In-Person', 1005, 2005, '2022-01-06 14:00:00', 60, 'Root Canal'),
 ('Online', 1006, 2006, '2022-01-07 15:00:00', 30, 'X-ray');
 
+
+
 CREATE TABLE `billing` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `patient_id` INT UNSIGNED NOT NULL,
     `date` DATE,
     `amount` DECIMAL(10, 2),
+    `payment_method` ENUM ('Cash', 'Credit Card', 'Debit Card', 'Cheque', 'Bank Transfer'),
     FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`)
-);
-
+) AUTO_INCREMENT = 5000;
+INSERT INTO `billing` (`patient_id`, `date`, `amount`, `payment_method`) VALUES
+(1000, '2022-01-01', 100.00, 'Cash'),
+(1001, '2022-01-02', 200.00, 'Credit Card'),
+(1003, '2022-01-03', 300.00, 'Debit Card'),
+(1002, '2022-01-04', 400.00, 'Cheque'),
+(1004, '2022-01-05', 500.00, 'Bank Transfer'),
+(1005, '2022-01-06', 600.00, 'Cash'),
+(1004, '2022-01-07', 700.00, 'Credit Card'),
+(1006, '2022-01-08', 800.00, 'Debit Card'),
+(1001, '2022-01-09', 900.00, 'Cheque'),
+(1002, '2022-01-10', 1000.00, 'Bank Transfer');
