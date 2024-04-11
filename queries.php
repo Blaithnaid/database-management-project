@@ -2,7 +2,7 @@
 error_reporting(E_ALL); // report errors of all levels
 ini_set("display_errors", 1); // display those errors
 include_once 'functions.php';
-// $conn = createConnection();
+$conn = createConnection();
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,9 +37,13 @@ include_once 'functions.php';
             text-align: center;
         }
 
+        td .imgcol {
+            padding: 0;
+        }
+
         table img {
-            width: 200px;
-            height: 150px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
     </style>
@@ -54,13 +58,6 @@ include_once 'functions.php';
             <th>Last Name</th>
             <th>Amount</th>
             <?php
-            $host = "18.235.191.142";
-            $username = "iarla";
-            $password = "password";
-            $database = "dentist_isb";
-            $port = 3306;
-            $conn = mysqli_connect($host, $username, $password, $database, $port);
-
             $query = "SELECT SUBSTRING_INDEX(p.name, ' ', 1) AS firstname,
             SUBSTRING_INDEX(p.name, ' ', -1) AS lastname, SUBSTR(b.id, -1, 1) AS id,
             b.amount AS amount FROM patient p INNER JOIN billing b ON p.id = b.patient_id";
@@ -109,22 +106,51 @@ include_once 'functions.php';
     <table>
         <tr>
             <th>Report ID</th>
+            <th>Patient Name</th>
+            <th>Staff Name</th>
             <th>Report Date</th>
-            <th>Report</th>
+            <th>X-Ray Image</th>
         </tr>
         <?php
-        $query = "SELECT id, datetime, xray_image FROM dental_report";
+        $query = "SELECT p.name AS patient_name, s.name AS staff_name, r.id AS report_id, r.xray_image AS xray_image, r.datetime AS datetime
+                    FROM patient p
+                    INNER JOIN dental_report r ON p.id = r.patient_id
+                    INNER JOIN staff s ON r.staff_id = s.id
+                    ORDER BY r.datetime ASC";
         $result = mysqli_query($conn, $query) or die("Bad Query.");
 
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $row["id"] . "</td>";
+            echo "<td>" . $row["report_id"] . "</td>";
+            echo "<td>" . $row["patient_name"] . "</td>";
+            echo "<td>" . $row["staff_name"] . "</td>";
             echo "<td>" . $row["datetime"] . "</td>";
-            echo "<td><img src='data:image/jpeg;base64," . base64_encode($row["xray_image"]) . "'/></td>";
+            echo "<td class='imgcol'><img src='data:image/jpeg;base64," . base64_encode($row["xray_image"]) . "'/></td>";
             echo "</tr>";
         }
         ?>
+    </table>
+    <br>
+    <h2>Table with Left Join</h2>
+    <table>
+        <?php
+        $query = "SELECT p.name AS patient_name, s.name AS staff_name, r.id AS report_id, r.datetime AS datetime
+        FROM patient p
+        LEFT JOIN dental_report r ON p.id = r.patient_id
+        LEFT JOIN staff s ON r.staff_id = s.id
+        ORDER BY r.datetime ASC";
+        $result = mysqli_query($conn, $query) or die("Bad Query.");
 
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row["report_id"] . "</td>";
+            echo "<td>" . $row["patient_name"] . "</td>";
+            echo "<td>" . $row["staff_name"] . "</td>";
+            echo "<td>" . $row["datetime"] . "</td>";
+            echo "</tr>";
+        }
+        ?>
+    </table>
 </body>
 
 </html>
