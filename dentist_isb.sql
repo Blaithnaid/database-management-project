@@ -94,17 +94,17 @@ CREATE TABLE `billing` (
     `patient_id` INT UNSIGNED NOT NULL,
     `date` DATE,
     `amount` DECIMAL(10, 2),
-    `payment_method` ENUM ('Cash', 'Credit Card', 'Debit Card', 'Cheque', 'Bank Transfer'),
+    `payment_method` SET ('Cash', 'Credit Card', 'Debit Card', 'Cheque', 'Bank Transfer'),
     FOREIGN KEY (`patient_id`) REFERENCES `patient`(`id`)
 ) AUTO_INCREMENT = 5000;
 INSERT INTO `billing` (`patient_id`, `date`, `amount`, `payment_method`) VALUES
-(1000, '2022-01-01', 100.00, 'Cash'),
-(1001, '2022-01-02', 200.00, 'Credit Card'),
-(1003, '2022-01-03', 300.00, 'Debit Card'),
-(1002, '2022-01-04', 400.00, 'Cheque'),
-(1004, '2022-01-05', 500.00, 'Bank Transfer'),
-(1005, '2022-01-06', 600.00, 'Cash'),
-(1004, '2022-01-07', 700.00, 'Credit Card'),
-(1006, '2022-01-08', 800.00, 'Debit Card'),
-(1001, '2022-01-09', 900.00, 'Cheque'),
-(1002, '2022-01-10', 1000.00, 'Bank Transfer');
+(1000, '2022-01-01', 100.00, ('Cash,Credit Card')),
+(1001, '2022-01-02', 200.00, ('Credit Card')),
+(1003, '2022-01-03', 300.00, ('Debit Card')),
+(1002, '2022-01-04', 400.00, ('Cheque')),
+(1004, '2022-01-05', 500.00, ('Bank Transfer')),
+(1005, '2022-01-06', 600.00, ('Cash,Debit Card')),
+(1004, '2022-01-07', 700.00, ('Credit Card')),
+(1006, '2022-01-08', 800.00, ('Debit Card')),
+(1001, '2022-01-09', 900.00, ('Cheque')),
+(1002, '2022-01-10', 1000.00, ('Bank Transfer,Cash'));
