@@ -58,12 +58,12 @@ CREATE TABLE `dental_report` (
     FOREIGN KEY (`staff_id`) REFERENCES `staff`(`id`)
 ) AUTO_INCREMENT = 3000;
 INSERT INTO `dental_report` (`patient_id`, `staff_id`, `datetime`, `diagnosis`, `treatment`, `xray_image`) VALUES
-(1000, 2000, '2022-01-01 09:30:00', 'Cavity', 'Filling', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray1.jpeg')),
-(1001, 2001, '2022-01-02 10:30:00', 'Gum disease', 'Deep cleaning', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray2.jpeg')),
-(1002, 2002, '2022-01-03 11:30:00', 'Tooth decay', 'Extraction', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray3.jpeg')),
-(1003, 2003, '2022-01-04 12:30:00', 'Toothache', 'Root canal', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray4.jpeg')),
-(1004, 2004, '2022-01-05 13:30:00', 'Cracked tooth', 'Crown', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray5.jpeg')),
-(1005, 2005, '2022-01-06 14:30:00', 'Abscess', 'Drainage', LOAD_FILE('/Applications/XAMPP/xamppfiles/htdocs/dentist-isb/xray/xray6.jpeg'));
+(1000, 2000, '2022-01-01 09:30:00', 'Cavity', 'Filling', LOAD_FILE('/var/lib/mysql-files/xray1.jpeg')),
+(1001, 2001, '2022-01-02 10:30:00', 'Gum disease', 'Deep cleaning', LOAD_FILE('/var/lib/mysql-files/xray2.jpeg')),
+(1002, 2002, '2022-01-03 11:30:00', 'Tooth decay', 'Extraction', LOAD_FILE('/var/lib/mysql-files/xray3.jpeg')),
+(1003, 2003, '2022-01-04 12:30:00', 'Toothache', 'Root canal', LOAD_FILE('/var/lib/mysql-files/xray4.jpeg')),
+(1004, 2004, '2022-01-05 13:30:00', 'Cracked tooth', 'Crown', LOAD_FILE('/var/lib/mysql-files/xray5.jpeg')),
+(1005, 2005, '2022-01-06 14:30:00', 'Abscess', 'Drainage', LOAD_FILE('/var/lib/mysql-files/xray6.jpeg'));
 
 
 
@@ -79,13 +79,13 @@ CREATE TABLE `appointment` (
     FOREIGN KEY (`staff_id`) REFERENCES `staff`(`id`)
 ) AUTO_INCREMENT = 4000;
 INSERT INTO `appointment` (`booking_type`, `patient_id`, `staff_id`, `appt_datetime`, `duration`, `reason`) VALUES 
-('Phone', 1000, 2000, '2022-01-01 09:00:00', 30, 'Check-up'),
-('In-Person', 1001, 2001, '2022-01-02 10:00:00', 60, 'Cleaning'),
-('Online', 1002, 2002, '2022-01-03 11:00:00', 40, 'Extraction'),
-('Postal', 1003, 2003, '2022-01-04 12:00:00', 30, 'Consultation'),
-('Phone', 1004, 2004, '2022-01-05 13:00:00', 60, 'Filling'),
-('In-Person', 1005, 2005, '2022-01-06 14:00:00', 60, 'Root Canal'),
-('Online', 1006, 2006, '2022-01-07 15:00:00', 30, 'X-ray');
+('Phone', 1000, 2000, '2024-04-15 09:00:00', 30, 'Check-up'),
+('In-Person', 1001, 2001, '2024-04-0 2 10:00:00', 60, 'Cleaning'),
+('Online', 1002, 2002, '2024-04-03 11:00:00', 40, 'Extraction'),
+('Postal', 1003, 2003, '2024-04-04 12:00:00', 30, 'Consultation'),
+('Phone', 1004, 2004, '2024-04-05 13:00:00', 60, 'Filling'),
+('In-Person', 1005, 2005, '2024-04-06 14:00:00', 60, 'Root Canal'),
+('Online', 1006, 2006, '2024-04-07 15:00:00', 30, 'X-ray');
 
 
 
