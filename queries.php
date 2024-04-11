@@ -1,61 +1,130 @@
 <?php
+error_reporting(E_ALL); // report errors of all levels
+ini_set("display_errors", 1); // display those errors
 include_once 'functions.php';
-$conn = createConnection();
-
+// $conn = createConnection();
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
-	<title>Php Picture Table Example</title>
-	<style>
-		table {
-			width: 100%;
-			border-collapse: collapse;
-		}
+    <title>Dentist Database Queries - G00405899</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            background-color: black;
+            text-align: center;
+        }
 
-		table,
-		td,
-		th {
-			border: 1px solid black;
-		}
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+            width: 60%;
+        }
 
-		th,
-		td {
-			text-align: left;
-			padding: 8px;
-		}
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
 
-		th {
-			background-color: #f2f2f2;
-		}
-	</style>
+        th,
+        tr,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        table img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
-	<h4></h4>
-	<table>
-		<?php
-		$query = "SELECT id,picture, picture_path, video, video_path, fileDB, file_path, articleDB, article_path from blobs ";
-		$connect = mysqli_connect($host, $username, $password, $database) or die("Problem connecting.");
-		$result = mysqli_query($connect, $query) or die("Bad Query.");
-		mysqli_close($connect);
+    <h2>Show bill amounts for patients, separate first and last name</h2>
+    <table>
+        <tr>
+            <th>Patient ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Amount</th>
+            <?php
+            $host = "18.235.191.142";
+            $username = "iarla";
+            $password = "password";
+            $database = "dentist_isb";
+            $port = 3306;
+            $conn = mysqli_connect($host, $username, $password, $database, $port);
 
-		while ($row = $result->fetch_array()) {
-			echo "<tr>";
-			echo "<td><h2>" . $row['id'] . "</h2></td>";
-			echo "<td><h2><img src=image_blobs.php?id=" . $row['id'] . " width=200 height=150/></h2></td>";
-			echo "<td><h2><img src=http://" . $host . $row['picture_path'] . " width=200 height=150/></h2></td>";
-			echo "<td><h2><embed src=video.php?id=" . $row['id'] . " width=200 height=150/></h2></td>";
-			echo "<td><h2><embed src=http://" . $host . $row['video_path'] . " width=200 height=150/></h2></td>";
-			echo "<td><h2><embed src=PDFFile.php?id=" . $row['id'] . " width=200 height=150/></h2></td>";
-			echo "<td><h2><embed src=http://" . $host . $row['file_path'] . " width=200 height=150/></h2></td>";
-			echo "<td><h2><embed src=article_blobs.php?id=" . $row['id'] . " width=200 height=150/></h2></td>";
-			echo "<td><h2><embed src=http://" . $host . $row['article_path'] . " width=200 height=150/></h2></td>";
-			echo "</tr>";
-		}
-		?>
-	<table>
+            $query = "SELECT SUBSTRING_INDEX(p.name, ' ', 1) AS firstname,
+            SUBSTRING_INDEX(p.name, ' ', -1) AS lastname, SUBSTR(b.id, -1, 1) AS id,
+            b.amount AS amount FROM patient p INNER JOIN billing b ON p.id = b.patient_id";
+            $result = mysqli_query($conn, $query) or die("Bad Query.");
+
+            while ($row = $result->fetch_array()) {
+                echo "<tr>";
+                echo "<td>" . $row['id'] . "</td>";
+                echo "<td>" . $row['firstname'] . "</td>";
+                echo "<td>" . $row['lastname'] . "</td>";
+                echo "<td>" . $row['amount'] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+    </table>
+    <br>
+    <h2>List of Appointments w/ Patient and Staff</h2>
+    <table>
+        <tr>
+            <th>Patient Name</th>
+            <th>Appointment Date/Time</th>
+            <th>Staff</th>
+            <th>Staff License</th>
+        </tr>
+        <?php
+        $query = "SELECT p.name AS patient_name, a.appt_datetime AS appt_datetime,
+         s.name AS staff_name, AES_DECRYPT(s.license_number, 'password') AS staff_license
+                    FROM patient p
+                    INNER JOIN appointment a ON p.id = a.patient_id
+                    INNER JOIN staff s ON a.staff_id = s.id
+                    ORDER BY a.appt_datetime DESC";
+        $result = mysqli_query($conn, $query) or die("Bad Query.");
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row["patient_name"] . "</td>";
+            echo "<td>" . $row["appt_datetime"] . "</td>";
+            echo "<td>" . $row["staff_name"] . "</td>";
+            echo "<td>" . $row["staff_license"] . "</td>";
+            echo "</tr>";
+        }
+        ?>
+    </table>
+    <br>
+    <h2>List of Dental Reports with JPEG blob output</h2>
+    <table>
+        <tr>
+            <th>Report ID</th>
+            <th>Report Date</th>
+            <th>Report</th>
+        </tr>
+        <?php
+        $query = "SELECT id, datetime, xray_image FROM dental_report";
+        $result = mysqli_query($conn, $query) or die("Bad Query.");
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td>" . $row["id"] . "</td>";
+            echo "<td>" . $row["datetime"] . "</td>";
+            echo "<td><img src='data:image/jpeg;base64," . base64_encode($row["xray_image"]) . "'/></td>";
+            echo "</tr>";
+        }
+        ?>
+
 </body>
 
 </html>
