@@ -68,7 +68,7 @@ $conn = createConnection();
                 echo "<td>" . $row['id'] . "</td>";
                 echo "<td>" . $row['firstname'] . "</td>";
                 echo "<td>" . $row['lastname'] . "</td>";
-                echo "<td>" . $row['amount'] . "</td>";
+                echo "<td>€" . $row['amount'] . "</td>";
                 echo "</tr>";
             }
             ?>
@@ -133,6 +133,12 @@ $conn = createConnection();
     <br>
     <h2>Table with Left Join</h2>
     <table>
+        <tr>
+            <th>Report ID</th>
+            <th>Patient Name</th>
+            <th>Staff Name</th>
+            <th>Report Date</th>
+        </tr>
         <?php
         $query = "SELECT p.name AS patient_name, s.name AS staff_name, r.id AS report_id, r.datetime AS datetime
         FROM patient p
