@@ -2,8 +2,8 @@
 // G00405899 - Iarla Sparrow Burke
 function createConnection()
 {
-    $useLocal = false;
-    if ($useLocal) {
+    $useRemote = true;
+    if (!$useRemote) {
         $host = "localhost";
         $username = "root";
         $password = "";
