@@ -1,5 +1,5 @@
-YOUTUBE LINK: 
-
+G00405899 - Iarla Sparrow Burke, Database Management Systems
+YOUTUBE LINK FOR PRESENTATION: https://youtu.be/hVsGRaYjvjw
 
 # Database file
 The tables I decided to create, alongside the first appearance of 
