@@ -1,7 +1,9 @@
-G00405899 - Iarla Sparrow Burke, Database Management Systems
-YOUTUBE LINK FOR PRESENTATION: https://youtu.be/hVsGRaYjvjw
+G00405899 - Database Management Systems
 
-# Database file
+## Overview
+A basic SQL database for displaying info for a dentist's office, developed as part of my Database Management Systems module in college.
+
+## Database file
 The tables I decided to create, alongside the first appearance of 
 notable features of SQL I implemented within them:
 - Patients
