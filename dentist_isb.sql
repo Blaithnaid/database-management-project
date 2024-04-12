@@ -1,3 +1,4 @@
+-- G00405899
 DROP DATABASE IF EXISTS dentist_isb;
 CREATE DATABASE dentist_isb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE dentist_isb;

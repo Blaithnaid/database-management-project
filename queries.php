@@ -1,4 +1,5 @@
 <?php
+// G00405899
 error_reporting(E_ALL); // report errors of all levels
 ini_set("display_errors", 1); // display those errors
 include_once 'functions.php';
@@ -63,7 +64,7 @@ $conn = createConnection();
             b.amount AS amount FROM patient p INNER JOIN billing b ON p.id = b.patient_id";
             $result = mysqli_query($conn, $query) or die("Bad Query.");
 
-            while ($row = $result->fetch_array()) {
+            while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row['id'] . "</td>";
                 echo "<td>" . $row['firstname'] . "</td>";

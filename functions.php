@@ -1,5 +1,5 @@
 <?php
-// G00405899 - Iarla Sparrow Burke
+// G00405899
 function createConnection()
 {
     $useRemote = true;
